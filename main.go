@@ -147,6 +147,8 @@ func main() {
 
 	logger.Verbosef("Starting wireguard-go version %s", Version)
 
+	device.InitObfuscation(logger)
+
 	if err != nil {
 		logger.Errorf("Failed to create TUN device: %v", err)
 		os.Exit(ExitSetupFailed)

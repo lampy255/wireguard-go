@@ -193,7 +193,9 @@ func (device *Device) SendHandshakeCookie(initiatingElem *QueueHandshakeElement)
 	writer := bytes.NewBuffer(buf[:0])
 	binary.Write(writer, binary.LittleEndian, reply)
 	// TODO: allocation could be avoided
-	device.net.bind.Send([][]byte{writer.Bytes()}, initiatingElem.endpoint)
+	bytes := writer.Bytes()
+	ObfuscateBytes(bytes)
+	device.net.bind.Send([][]byte{bytes}, initiatingElem.endpoint)
 	return nil
 }
 

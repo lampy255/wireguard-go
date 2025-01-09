@@ -133,6 +133,11 @@ func (peer *Peer) SendBuffers(buffers [][]byte) error {
 	}
 	peer.endpoint.Unlock()
 
+	// apply xor obfuscation if enabled
+	for i := range buffers {
+		ObfuscateBytes(buffers[i])
+	}
+
 	err := peer.device.net.bind.Send(buffers, endpoint)
 	if err == nil {
 		var totalLen uint64
